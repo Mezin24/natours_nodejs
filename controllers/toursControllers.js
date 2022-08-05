@@ -5,7 +5,6 @@ let tours = JSON.parse(
 );
 
 exports.checkId = (req, res, next, val) => {
-  console.log(`Tour id: ${val}`);
   const { id } = req.params;
   const tour = tours.find((item) => item.id === +id);
 
@@ -16,6 +15,17 @@ exports.checkId = (req, res, next, val) => {
     });
   }
 
+  next();
+};
+
+exports.checkBody = (req, res, next) => {
+  const { name, price } = req.body;
+  if (!name || !price) {
+    return res.status(400).json({
+      status: 'fail',
+      message: 'Tour must have name and price',
+    });
+  }
   next();
 };
 
